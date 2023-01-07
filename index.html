@@ -1,0 +1,64 @@
+<html>
+<head>
+  <title>Shopping Cart</title>
+</head>
+<body>
+     <center>
+<a href="https://mike6989.github.io/-/">回首頁</a>
+  <h1>購物車</h1>
+  <table id="cart">
+    <tr>
+      <th>商品</th>
+      <th>價格</th>
+      <th>數量</th>
+      <th>刪除</th>
+    </tr>
+  </table>
+  <br>
+  <form>
+    商品: <input type="text" id="product"><br>
+    價格: <input type="text" id="price"><br>
+    數量: <input type="text" id="quantity"><br>
+    <button type="button" onclick="addToCart()">加到購物車</button>
+  </form>
+  <br>
+  <p>總和: $<span id="total"></span></p>
+  <script>
+    let total = 0;
+
+    function addToCart() {
+      const product = document.getElementById('product').value;
+      const price = parseFloat(document.getElementById('price').value);
+      const quantity = parseInt(document.getElementById('quantity').value);
+
+      const totalPrice = price * quantity;
+
+      const table = document.getElementById('cart');
+      const row = table.insertRow(-1);
+      const cell1 = row.insertCell(0);
+      const cell2 = row.insertCell(1);
+      const cell3 = row.insertCell(2);
+      const cell4 = row.insertCell(3);
+      cell1.innerHTML = product;
+      cell2.innerHTML = '$' + price;
+      cell3.innerHTML = quantity;
+      const deleteButton = document.createElement('button');
+      deleteButton.innerHTML = '刪除';
+      deleteButton.addEventListener('click', deleteRow);
+      cell4.appendChild(deleteButton);
+      total += totalPrice;
+      document.getElementById('total').innerHTML = total;
+    }
+
+    function deleteRow(event) {
+      const button = event.target;
+      const row = button.parentNode.parentNode;
+      const price = parseFloat(row.cells[1].innerHTML.substring(1));
+      const quantity = parseInt(row.cells[2].innerHTML);
+      total -= price * quantity;
+      document.getElementById('total').innerHTML = total;
+      row.parentNode.deleteRow(row.rowIndex);
+    }
+  </script>
+</body>
+</html>
